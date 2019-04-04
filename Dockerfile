@@ -8,6 +8,14 @@ ENV TZ=Asia/Shanghai
 #设置时区
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo '$TZ' > /etc/timezone
 
+#设置php.ini
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+RUN sed -i 's|;date.timezone =|date.timezone = "Asia/Shanghai"|g' /usr/local/etc/php/php.ini
+RUN sed -i 's|memory_limit = 128M|memory_limit = 256M|g' /usr/local/etc/php/php.ini
+RUN sed -i 's|max_execution_time = 30|max_execution_time = 300|g' /usr/local/etc/php/php.ini
+RUN sed -i 's|upload_max_filesize = 2M|upload_max_filesize = 256M|g' /usr/local/etc/php/php.ini
+RUN sed -i 's|post_max_size = 8M|post_max_size = 256M|g' /usr/local/etc/php/php.ini
+
 # 更新阿里云的wheezy版本包源
 #RUN echo "deb http://mirrors.aliyun.com/debian wheezy main contrib non-free" > /etc/apt/sources.list && \
 #    echo "deb-src http://mirrors.aliyun.com/debian wheezy main contrib non-free" >> /etc/apt/sources.list  && \
